@@ -92,6 +92,7 @@ class ViewController: UIViewController {
             record.isHidden = false
             record.text = "Record: \(points)"
             self.btnReset.isHidden = false
+            self.nextRound.isEnabled = false
         }
     }
     
@@ -118,9 +119,12 @@ class ViewController: UIViewController {
         if ronda == MAX_SHOOTS {
             self.btnReset.isHidden = false
             self.showTotalPoint(withPoints: puntuacion)
+            self.nextRound.isEnabled = false
+            self.shootNumber.isEnabled = false
+        }else {
+            self.shootNumber.isEnabled = false
+            self.nextRound.isEnabled = true
         }
-        self.shootNumber.isEnabled = false
-        self.nextRound.isEnabled = true
     }
     
     @IBAction func nextRound(_ sender: Any) {
