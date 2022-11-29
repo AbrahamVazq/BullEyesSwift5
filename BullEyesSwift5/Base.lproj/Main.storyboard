@@ -18,7 +18,18 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Amu-Ne-66R">
                                 <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VHi-Rm-fuz">
+                                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                                    </imageView>
+                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBrownColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="VHi-Rm-fuz" secondAttribute="bottom" id="Ldu-Fg-9UI"/>
+                                    <constraint firstItem="VHi-Rm-fuz" firstAttribute="leading" secondItem="Amu-Ne-66R" secondAttribute="leading" id="Sa3-Wf-zGg"/>
+                                    <constraint firstAttribute="trailing" secondItem="VHi-Rm-fuz" secondAttribute="trailing" id="q8w-JV-GM9"/>
+                                    <constraint firstItem="VHi-Rm-fuz" firstAttribute="top" secondItem="Amu-Ne-66R" secondAttribute="top" id="uzJ-AV-l6n"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
