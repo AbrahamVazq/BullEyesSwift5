@@ -22,6 +22,7 @@ class ViewController: UIViewController {
     private var puntuacion: Int = 0
     private var ronda: Int = 1
     private var logro: Int = 0
+    private var MAX_SHOOTS = 3
     
    //MARK: - L Y F E · C Y C L E
     override func viewDidLoad() {
@@ -31,6 +32,7 @@ class ViewController: UIViewController {
         self.numberToAprox.text = "\(valorObjetivo)"
         self.round.text = "\(ronda)"
         self.nextRound.isEnabled = false
+        self.btnReset.isHidden = true
     }
     
     //MARK: - F U N C T I O N S
@@ -90,6 +92,7 @@ class ViewController: UIViewController {
             record.isHidden = false
             record.text = "Record: \(points)"
             self.btnReset.isHidden = false
+            self.nextRound.isEnabled = false
         }
     }
     
@@ -111,19 +114,21 @@ class ViewController: UIViewController {
     }
     
     @IBAction func goToEvaluate(_ sender: Any) {
-        nextRound.isEnabled = !(ronda == 10)
-        if ronda == 10 {
+        nextRound.isEnabled = !(ronda == MAX_SHOOTS)
+        evaluateValue(from: valorSlider)
+        if ronda == MAX_SHOOTS {
             self.btnReset.isHidden = false
             self.showTotalPoint(withPoints: puntuacion)
+            self.nextRound.isEnabled = false
+            self.shootNumber.isEnabled = false
+        }else {
+            self.shootNumber.isEnabled = false
+            self.nextRound.isEnabled = true
         }
-        
-        self.shootNumber.isEnabled = false
-        self.nextRound.isEnabled = true
-        evaluateValue(from: valorSlider)
     }
     
     @IBAction func nextRound(_ sender: Any) {
-        nextRound.isEnabled = !(ronda == 10)
+        nextRound.isEnabled = !(ronda == MAX_SHOOTS)
         self.initNewRound()
         self.shootNumber.isEnabled = true
         self.nextRound.isEnabled = false
