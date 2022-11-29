@@ -12,8 +12,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var totalPoints: UILabel!
     @IBOutlet weak var round: UILabel!
     @IBOutlet weak var nextRound: UIButton!
-    @IBOutlet weak var record: UILabel!
-    @IBOutlet weak var newRecord: UILabel!
+    @IBOutlet weak var record: UILabel!{ didSet{ record.isHidden = true }}
+    @IBOutlet weak var newRecord: UILabel!{ didSet{ newRecord.isHidden = true}}
     
     //MARK: - V A R I A B L E S
     private var valorSlider: Int = 50
@@ -77,12 +77,17 @@ class ViewController: UIViewController {
             self.showAlert(withMessage: "No mms, bien manco.")
         
         default:
-            break
-
+            self.showAlert(withMessage: "Pon atencion cabron!.")
         }
     }
     
-    private func showTotalPoint(){
+    private func showTotalPoint(withPoints points: Int){
+        if points > logro {
+            newRecord.isHidden = false
+            newRecord.text = "Nueva puntuacion Maxima: \(points)"
+            record.isHidden = false
+            record.text = "Record: \(points)"
+        }
         
     }
     
@@ -100,7 +105,9 @@ class ViewController: UIViewController {
     @IBAction func goToEvaluate(_ sender: Any) {
         nextRound.isEnabled = !(ronda == 10)
         
-        
+        if ronda == 10 {
+            self.showTotalPoint(withPoints: puntuacion)
+        }
         
         self.shootNumber.isEnabled = false
         evaluateValue(from: valorSlider)
