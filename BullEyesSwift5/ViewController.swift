@@ -11,21 +11,27 @@ class ViewController: UIViewController {
     @IBOutlet weak var shootNumber: UIButton!
     @IBOutlet weak var totalPoints: UILabel!
     @IBOutlet weak var round: UILabel!
+    @IBOutlet weak var nextRound: UIButton!
+    @IBOutlet weak var record: UILabel!
+    @IBOutlet weak var newRecord: UILabel!
     
     //MARK: - V A R I A B L E S
     private var valorSlider: Int = 50
     private var valorObjetivo: Int = 0
     private var puntuacion: Int = 0
-    private var ronda: Int = 0
+    private var ronda: Int = 1
+    private var logro: Int = 0
     
-   
+   //MARK: - L Y F E · C Y C L E
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setSlider()
         self.valorObjetivo = 1 + Int(arc4random_uniform(100))
         self.numberToAprox.text = "\(valorObjetivo)"
+        self.round.text = "\(ronda)"
     }
     
+    //MARK: - F U N C T I O N S
     private func setSlider(){
         numberToShoot.setThumbImage(UIImage(named: "SliderThumb-Normal"), for: .normal)
         numberToShoot.minimumValue = 1
@@ -35,39 +41,40 @@ class ViewController: UIViewController {
         numberToShoot.minimumTrackTintColor = .red
     }
     
-    /* Funcion que genera un nuevo Round */
-    func iniciaNuevoRound(){
+    func initNewRound(){
         ronda += 1
         valorObjetivo = 1 + Int(arc4random_uniform(100))
+        self.numberToAprox.text = "\(valorObjetivo)"
         valorSlider = 50
         numberToShoot.value = Float(valorSlider)
     }
     
-    @IBAction func sliderMoved(slider: UISlider) {
-        valorSlider = lroundf(numberToShoot.value)
-        print("El valor del slider is: \(valorSlider)")
+    private func showAlert(withMessage msg: String){
+        let alert = UIAlertController(title: "Tiro al Blanco", message: msg, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .default)
+        
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func goToEvaluate(_ sender: Any) {
-        self.shootNumber.isEnabled = false
-        evaluateValue(from: valorSlider)
-    }
-    
+    //MARK: - V A L I D A T I O N S
     private func evaluateValue(from value:Int) {
         let total = abs(value - valorObjetivo)
         switch total {
         case 0:
-            print("AH PERRILLO!")
+            self.showAlert(withMessage: "AH PERRILLO!")
             puntuacion += 100
             self.totalPoints.text = "\(puntuacion)"
             
         case 5,4,3,2,1:
             print("Maso maso")
+            self.showAlert(withMessage: "Ufff casi Crack!")
             puntuacion += 50
             self.totalPoints.text = "\(puntuacion)"
             
         case 10,9,8,7,6:
             print("Dale de nuevo perro")
+            self.showAlert(withMessage: "No mms, bien manco.")
         
         default:
             break
@@ -75,7 +82,36 @@ class ViewController: UIViewController {
         }
     }
     
+    private func showTotalPoint(){
+        
+    }
     
-
+    private func showRecord(){
+        
+    }
+    
+    
+    //MARK: - A C T I O N S
+    @IBAction func sliderMoved(slider: UISlider) {
+        valorSlider = lroundf(numberToShoot.value)
+        print("El valor del slider is: \(valorSlider)")
+    }
+    
+    @IBAction func goToEvaluate(_ sender: Any) {
+        nextRound.isEnabled = !(ronda == 10)
+        
+        
+        
+        self.shootNumber.isEnabled = false
+        evaluateValue(from: valorSlider)
+    }
+    
+    @IBAction func nextRound(_ sender: Any) {
+        nextRound.isEnabled = !(ronda == 10)
+        self.initNewRound()
+        self.shootNumber.isEnabled = true
+        self.round.text = "\(ronda)"
+    }
+    
 
 }
